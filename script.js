@@ -1,3 +1,3 @@
 document.getElementById('btn').addEventListener('click', function() {
-    alert('你好，欢迎来到我的网站！');
+    alert('你要反思一下为什么能看到这句话（');
 });
