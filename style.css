@@ -26,6 +26,7 @@ body {
 	overflow: hidden;
 }
 
+/* before和after实现边框动画 */
 .box::before {
 	content: '';
 	z-index: 1;
