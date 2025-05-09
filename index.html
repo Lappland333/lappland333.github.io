@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html lang="zh">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Demo</title>
-    <style>
-        body{text-align: center;}
-    </style>
-    <style>
-        body {
-           background: url("123.jpg") ;
-           background-size:cover;
-           background-repeat: no-repeat;
-           background-attachment: fixed;
-           background-position: center;
-       }
-   </style>
-    </head>
- <body>  
-    <h1 style="color: aliceblue;">欢迎！</h1>
-    <p style="color: aqua;font: size 20px;">
-        这是一个简单的测试，之后会慢慢完善的，非常感谢
-    </p>
-    <link rel="stylesheet" href="styles.css">
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Animated Login Form</title>
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1 id="title">Hello World!</h1>
-    <button id="btn">请不要点击</button>
-    <script src="script.js"></script>
+	<div class="box">
+		<form autocomplete="off">
+			<h2>Sign in</h2>
+			<div class="inputBox">
+				<input type="text" required="required">
+				<span>UserName</span>
+				<i></i>
+			</div>
+			<div class="inputBox">
+				<input type="password" required="required">
+				<span>Password</span>
+				<i></i>
+			</div>
+			<div class="links">
+				<a href="#">Forgot Password ?</a>
+				<a href="#">Signup</a>
+			</div>
+			<input type="submit" value="Login">
+		</form>
+	</div>
 </body>
+
 </html>
