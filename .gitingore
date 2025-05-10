@@ -1,0 +1,24 @@
+# 忽略 Visual Studio 本地设置
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 忽略 SQLite 数据库文件（如果存在）
+*.sqlite
+
+# 忽略系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略 log 文件（如果有调试输出）
+*.log
+
+# 如果未来你引入 Node.js 或构建工具，可以加这些：
+node_modules/
+dist/
+build/
+
+# 忽略 VSCode 设置（如果你也用 VSCode 打开过）
+.vscode/
