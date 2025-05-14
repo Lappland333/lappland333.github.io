@@ -4,12 +4,20 @@
 	<meta charset="UTF-8">
 	<title>login</title>
 	<link rel="stylesheet" href="/css/style.css">
-	<style></style>
+	<style>
+		.form-container > form {
+			display: none;
+		}
+		.form-container > form.active {
+			display: block;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="box">
-		<form autocomplete="off">
+		<div class="form-container">
+		<form id="login-form" class="active" autocomplete="off">
 			<h2>登录</h2>
 			<div class="inputBox">
 				<input type="text" required="required">
@@ -22,12 +30,56 @@
 				<i></i>
 			</div>
 			<div class="links">
-				<a href="#">Forgot Password ?</a>
-				<a href="#">注册</a>
+				<a href="#">忘记密码？</a>
+				<a href="#" onclick="toggleForm('register')">注册</a>
 			</div>
 			<input type="submit" value="Login">
 		</form>
+
+
+		
+      <!-- 注册表单 -->
+      <form id="register-form" autocomplete="off">
+        <h2>注册</h2>
+        <div class="inputBox">
+          <input type="text" required>
+          <span>UserName</span>
+          <i></i>
+        </div>
+        <div class="inputBox">
+          <input type="email" required>
+          <span>Email</span>
+          <i></i>
+        </div>
+        <div class="inputBox">
+          <input type="password" required>
+          <span>Password</span>
+          <i></i>
+        </div>
+        <div class="links">
+          <a href="#" onclick="toggleForm('login')">已有账号？登录</a>
+        </div>
+        <input type="submit" value="Register">
+      </form>
+    </div>
+  </div>
+
+
 	</div>
+
+	  <script>
+    function toggleForm(formName) {
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      if (formName === 'register') {
+        loginForm.classList.remove('active');
+        registerForm.classList.add('active');
+      } else {
+        registerForm.classList.remove('active');
+        loginForm.classList.add('active');
+      }
+    }
+  </script>
 </body>
 
 </html>
