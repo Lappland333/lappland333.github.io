@@ -1,58 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>找回密码</title>
-    <link rel="stylesheet" href="/fronthead/css/style.css">
-    <style>
-        .form-container {
-            max-width: 350px;
-            margin: 80px auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-            padding: 30px 30px 20px 30px;
-            color: #333;
-        }
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .inputBox {
-            margin-bottom: 18px;
-        }
-        .inputBox input {
-            width: 100%;
-            padding: 8px;
-            font-size: 16px;
-        }
-        .back-link {
-            display: block;
-            text-align: right;
-            margin-top: 10px;
-            color: #00d1ff;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>找回密码</title>
+  <link rel="stylesheet" href="/fronthead/css/style.css">
+  <style>
+    .form-container > form {
+      display: none;
+    }
+    .form-container > form.active {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
+  <div class="box">
     <div class="form-container">
+      <form id="forgot-form" class="active" autocomplete="off">
         <h2>找回密码</h2>
-        <form id="forgot-form" autocomplete="off">
-            <div class="inputBox">
-                <input type="email" name="email" required placeholder="请输入注册邮箱">
-            </div>
-            <input type="submit" value="发送重置链接">
-        </form>
-        <a class="back-link" href="login.html">返回登录</a>
-        <div id="forgot-message" style="color:green;margin-top:12px;"></div>
+        <div class="inputBox">
+          <input type="text" name="identifier" required>
+          <span>请输入用户名或邮箱</span>
+          <i></i>
+        </div>
+        <div class="links">
+          <a href="login.html">返回登录</a>
+          <a href="register.html">注册</a>
+        </div>
+        <input type="submit" value="重置密码">
+      </form>
     </div>
-    <script>
-        document.getElementById('forgot-form').onsubmit = function(e) {
-            e.preventDefault();
-            // 这里只做演示，实际应调用后端接口发送邮件
-            document.getElementById('forgot-message').innerText = "如果邮箱存在，重置链接已发送。";
-        };
-    </script>
+  </div>
+  <script src="/js/forgot.js"></script>
 </body>
 </html>
