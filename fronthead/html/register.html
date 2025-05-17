@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <link rel="stylesheet" href="/fronthead/css/style.css">
+    <style>
+        .form-container > form {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="form-container">
+            <form id="register-form" autocomplete="off">
+                <h2>注册</h2>
+                <div class="inputBox">
+                    <input type="text" name="username" required>
+                    <span>UserName</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="email" name="email" required>
+                    <span>Email</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" name="password" required>
+                    <span>Password</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a href="login.html">已有账号？登录</a>
+                </div>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

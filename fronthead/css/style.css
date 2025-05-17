@@ -15,7 +15,7 @@ body {
 	min-height: 100vh;
 	flex-direction: column;
 	background: #23242a;
-	background-image: url('/img/background.jpg'); /* 替换为你的背景图片路径 */
+	background-image: url('/fronthead/img/background.jpg');
 	background-size: cover; /* 让图片覆盖整个背景 */
 	background-position: center; /* 图片居中显示 */
 	background-attachment: fixed; /* 固定背景，不随滚动条滚动 */
