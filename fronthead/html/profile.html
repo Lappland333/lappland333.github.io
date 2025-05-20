@@ -1,66 +1,421 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>个人信息</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .profile-container {
-      max-width: 400px;
-      margin: 60px auto;
-      background: rgba(255,255,255,0.95);
-      border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-      padding: 30px 40px;
-      color: #333;
-      text-align: left;
-    }
-    .profile-container h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .profile-info {
-      font-size: 18px;
-      margin-bottom: 16px;
-    }
-    .logout-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: #00d1ff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 18px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s;
-    }
-    .logout-btn:hover {
-      background: #ffd700;
-      color: #333;
-    }
-  </style>
-</head>
-<body>
-  <div class="profile-container">
-    <h2>个人信息</h2>
-    <div class="profile-info"><strong>用户名：</strong><span id="profile-username">示例用户</span></div>
-    <div class="profile-info"><strong>邮箱：</strong><span id="profile-email">user@example.com</span></div>
-    <button class="logout-btn" onclick="logout()">退出登录</button>
-  </div>
-  <script>
-    // 示例：从本地存储获取用户信息
-    document.getElementById('profile-username').textContent = localStorage.getItem('username') || '示例用户';
-    document.getElementById('profile-email').textContent = localStorage.getItem('email') || 'user@example.com';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#11ebff',
+                        secondary: '#66fcf1',
+                        dark: '#23242a',
+                        darker: '#1c1c1c',
+                        darkgray: '#28292d',
+                        lightgray: '#8f8f8f'
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .animate-glow {
+                animation: glow 2s ease-in-out infinite alternate;
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            .text-shadow {
+                text-shadow: 0 0 10px rgba(17, 235, 255, 0.7);
+            }
+            .glass-effect {
+                backdrop-filter: blur(10px);
+                background: rgba(0, 0, 0, 0.3);
+            }
+            .scrollbar-hidden::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hidden {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
 
-    function logout() {
-      // 清除本地存储的用户信息
-      localStorage.removeItem('username');
-      localStorage.removeItem('email');
-      // 跳转回登录页
-      window.location.href = 'login.html';
-    }
-  </script>
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(17, 235, 255, 0.5), 0 0 10px rgba(17, 235, 255, 0.3);
+            }
+            to {
+                box-shadow: 0 0 10px rgba(17, 235, 255, 0.8), 0 0 20px rgba(17, 235, 255, 0.5), 0 0 30px rgba(17, 235, 255, 0.3);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen font-poppins bg-dark text-white overflow-x-hidden">
+    <!-- 背景图片和遮罩层 -->
+    <div class="fixed inset-0 z-0" style="
+            background: url('/fronthead/img/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+    "></div>
+
+    <!-- 登录状态管理 - 实际项目中应使用真实的身份验证系统 -->
+    <script>
+        // 模拟用户数据
+        const user = {
+            id: 1,
+            username: "liming",
+            email: "liming@example.com",
+            fullName: "李明",
+            avatar: "https://picsum.photos/id/1012/200/200",
+            bio: "全栈开发工程师，热爱技术和创新。",
+            location: "北京市朝阳区",
+            joinedAt: "2020-05-15",
+            skills: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"],
+            projects: [
+                { id: 1, name: "电商平台", description: "基于React和Node.js的全栈电商应用", status: "已完成" },
+                { id: 2, name: "数据分析仪表盘", description: "实时数据可视化平台", status: "进行中" },
+                { id: 3, name: "社交媒体应用", description: "类似Instagram的社交平台", status: "已完成" }
+            ]
+        };
+
+        // 检查用户是否登录
+
+        // 登出
+        function logout() {
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // 页面加载时检查认证状态
+
+        // 渲染用户个人信息
+        function renderUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('user')) || user;
+            
+            // 更新个人信息
+            document.getElementById('profile-avatar').src = userData.avatar;
+            document.getElementById('profile-name').textContent = userData.fullName;
+            document.getElementById('profile-username').textContent = `@${userData.username}`;
+            document.getElementById('profile-bio').textContent = userData.bio;
+            document.getElementById('profile-location').textContent = userData.location;
+            document.getElementById('profile-email').textContent = userData.email;
+            document.getElementById('profile-joined').textContent = `加入于 ${new Date(userData.joinedAt).toLocaleDateString()}`;
+            
+            // 渲染技能标签
+            const skillsContainer = document.getElementById('user-skills');
+            skillsContainer.innerHTML = '';
+            userData.skills.forEach(skill => {
+                const skillTag = document.createElement('span');
+                skillTag.className = 'px-3 py-1 bg-primary/20 text-primary text-sm rounded-full mr-2 mb-2 inline-block';
+                skillTag.textContent = skill;
+                skillsContainer.appendChild(skillTag);
+            });
+            
+            // 渲染项目列表
+            const projectsContainer = document.getElementById('user-projects');
+            projectsContainer.innerHTML = '';
+            userData.projects.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'bg-darkgray/50 rounded-lg p-4 mb-4 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300';
+                
+                const statusClass = project.status === '已完成' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400';
+                
+                projectCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-lg font-bold text-primary">${project.name}</h3>
+                        <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">
+                            ${project.status}
+                        </span>
+                    </div>
+                    <p class="text-lightgray mt-2">${project.description}</p>
+                `;
+                
+                projectsContainer.appendChild(projectCard);
+            });
+        }
+    </script>
+
+    <!-- 主容器 -->
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-10">
+        <!-- 头部导航 -->
+        <header class="w-full max-w-6xl glass-effect rounded-xl p-4 mb-8 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20">
+            <nav class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-primary text-shadow">
+                    <span class="text-white">个人</span>信息中心
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-white hover:text-primary transition-colors duration-300">
+                        <i class="fa fa-home mr-1"></i> 首页
+                    </a>
+                    <a href="#" class="text-white hover:text-primary transition-colors duration-300">
+                        <i class="fa fa-bell mr-1"></i> 通知
+                        <span class="inline-flex items-center justify-center w-4 h-4 ml-1 text-xs rounded-full bg-red-500">3</span>
+                    </a>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 text-white hover:text-primary transition-colors duration-300">
+                            <img src="https://picsum.photos/id/1012/40/40" alt="用户头像" class="w-8 h-8 rounded-full border-2 border-primary">
+                            <span class="hidden md:inline">李明</span>
+                            <i class="fa fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-darker rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary transition-colors duration-300">
+                                    <i class="fa fa-user mr-2"></i> 个人资料
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary transition-colors duration-300">
+                                    <i class="fa fa-cog mr-2"></i> 设置
+                                </a>
+                                <div class="border-t border-primary/20 my-1"></div>
+                                <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors duration-300">
+                                    <i class="fa fa-sign-out mr-2"></i> 退出登录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 主要内容 -->
+        <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 侧边栏 -->
+            <aside class="lg:col-span-1">
+                <div class="relative rounded-xl overflow-hidden glass-effect border border-primary/30 animate-glow">
+                    <div class="p-6">
+                        <div class="flex justify-center mb-6">
+                            <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary/50">
+                                <img id="profile-avatar" src="https://picsum.photos/id/1012/200/200" alt="李明" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                                <div class="absolute bottom-0 right-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary transition-colors duration-300">
+                                    <i class="fa fa-camera text-dark"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h1 id="profile-name" class="text-2xl font-bold text-center mb-2 text-primary">李明</h1>
+                        <p id="profile-username" class="text-center text-lightgray mb-6">@liming</p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm text-lightgray">个人简介</h3>
+                                    <p id="profile-bio" class="font-medium">全栈开发工程师，热爱技术和创新。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
+                                    <i class="fa fa-map-marker"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm text-lightgray">位置</h3>
+                                    <p id="profile-location" class="font-medium">北京市朝阳区</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm text-lightgray">邮箱</h3>
+                                    <p id="profile-email" class="font-medium">liming@example.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm text-lightgray">加入时间</h3>
+                                    <p id="profile-joined" class="font-medium">加入于 2020-05-15</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-primary/20">
+                            <h3 class="text-lg font-semibold mb-4 text-primary">技能</h3>
+                            <div id="user-skills" class="flex flex-wrap">
+                                <!-- 技能标签将通过JavaScript动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 主内容区 -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- 个人信息概览 -->
+                <section class="glass-effect rounded-xl p-6 border border-primary/30 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-primary">
+                            <i class="fa fa-user-circle mr-2"></i>个人信息概览
+                        </h2>
+                        <button class="px-4 py-1.5 bg-primary/20 text-primary rounded-lg hover:bg-primary hover:text-dark transition-colors duration-300">
+                            <i class="fa fa-edit mr-1"></i> 编辑
+                        </button>
+                    </div>
+
+
+                        <div class="bg-darkgray/50 rounded-lg p-5 hover:bg-darkgray/70 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-medium">进行中项目</h3>
+                                <span class="text-2xl font-bold text-yellow-400">3</span>
+                            </div>
+                            <div class="w-full bg-dark h-2 rounded-full overflow-hidden">
+                                <div class="h-full bg-yellow-400" style="width: 45%"></div>
+                            </div>
+                            <p class="text-xs text-lightgray mt-2">预计本月完成 2 个</p>
+                        </div>
+
+                        <div class="bg-darkgray/50 rounded-lg p-5 hover:bg-darkgray/70 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-medium">获得评价</h3>
+                                <span class="text-2xl font-bold text-green-400">24</span>
+                            </div>
+                            <div class="flex text-yellow-400">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                                <span class="ml-2 text-lightgray">4.7/5.0</span>
+                            </div>
+                            <p class="text-xs text-lightgray mt-2">满意度评分 94%</p>
+                        </div>
+
+                        <div class="bg-darkgray/50 rounded-lg p-5 hover:bg-darkgray/70 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-medium">技能熟练度</h3>
+                                <span class="text-2xl font-bold text-primary">85%</span>
+                            </div>
+                            <div class="flex flex-wrap gap-1 mt-2">
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="w-2 h-2 rounded-full bg-lightgray"></span>
+                                <span class="w-2 h-2 rounded-full bg-lightgray"></span>
+                            </div>
+                            <p class="text-xs text-lightgray mt-2">近 3 个月提升 7%</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 项目列表 -->
+                <section class="glass-effect rounded-xl p-6 border border-primary/30 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-primary">
+                            <i class="fa fa-briefcase mr-2"></i>我的项目
+                        </h2>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-1.5 bg-primary text-dark rounded-lg hover:bg-secondary transition-colors duration-300">
+                                <i class="fa fa-plus mr-1"></i> 新建
+                            </button>
+                            <div class="relative">
+                                <select class="bg-darkgray border border-primary/30 rounded-lg px-4 py-1.5 text-white appearance-none pr-8 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                                    <option>所有项目</option>
+                                    <option>进行中</option>
+                                    <option>已完成</option>
+                                    <option>已暂停</option>
+                                </select>
+                                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                    <i class="fa fa-chevron-down text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="user-projects" class="space-y-4">
+                        <!-- 项目列表将通过JavaScript动态生成 -->
+                    </div>
+                </section>
+
+                <!-- 最近活动 -->
+                <section class="glass-effect rounded-xl p-6 border border-primary/30 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                    <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-primary/30 text-primary">
+                        <i class="fa fa-history mr-2"></i>最近活动
+                    </h2>
+                            
+                            <div class="relative pl-12">
+                                <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-green-400 flex items-center justify-center">
+                                    <i class="fa fa-comment text-dark"></i>
+                                </div>
+                                <div class="bg-darkgray/50 rounded-lg p-4">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="font-medium">收到新评论</h3>
+                                        <span class="text-xs text-lightgray">昨天</span>
+                                    </div>
+                                    <p class="text-sm text-lightgray mt-2">张三评论了你的项目："这个实现非常棒，特别是数据可视化部分！"</p>
+                                </div>
+                            </div>
+                            
+                            <div class="relative pl-12">
+                                <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center">
+                                    <i class="fa fa-user-plus text-dark"></i>
+                                </div>
+                                <div class="bg-darkgray/50 rounded-lg p-4">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="font-medium">新的合作请求</h3>
+                                        <span class="text-xs text-lightgray">3天前</span>
+                                    </div>
+                                    <p class="text-sm text-lightgray mt-2">李四请求与你合作开发一个新的社交媒体应用。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="w-full max-w-6xl glass-effect rounded-xl p-4 mt-8 text-center text-lightgray">
+            <p>© 2025 个人信息中心 | 版权所有</p>
+        </footer>
+    </div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-secondary">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 回到顶部按钮功能
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 滚动监听，显示/隐藏回到顶部按钮
+        window.addEventListener('scroll', () => {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+    </script>
 </body>
-</html>
+</html>    
