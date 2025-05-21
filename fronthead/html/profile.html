@@ -6,6 +6,7 @@
     <title>个人信息中心</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/fronthead/css/style.css">
     <script>
         tailwind.config = {
             theme: {
@@ -30,9 +31,6 @@
             .content-auto {
                 content-visibility: auto;
             }
-            .animate-glow {
-                animation: glow 2s ease-in-out infinite alternate;
-            }
             .animate-pulse-slow {
                 animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
@@ -52,14 +50,6 @@
             }
         }
 
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px rgba(17, 235, 255, 0.5), 0 0 10px rgba(17, 235, 255, 0.3);
-            }
-            to {
-                box-shadow: 0 0 10px rgba(17, 235, 255, 0.8), 0 0 20px rgba(17, 235, 255, 0.5), 0 0 30px rgba(17, 235, 255, 0.3);
-            }
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
@@ -114,15 +104,6 @@
             document.getElementById('profile-email').textContent = userData.email;
             document.getElementById('profile-joined').textContent = `加入于 ${new Date(userData.joinedAt).toLocaleDateString()}`;
             
-            // 渲染技能标签
-            const skillsContainer = document.getElementById('user-skills');
-            skillsContainer.innerHTML = '';
-            userData.skills.forEach(skill => {
-                const skillTag = document.createElement('span');
-                skillTag.className = 'px-3 py-1 bg-primary/20 text-primary text-sm rounded-full mr-2 mb-2 inline-block';
-                skillTag.textContent = skill;
-                skillsContainer.appendChild(skillTag);
-            });
             
             // 渲染项目列表
             const projectsContainer = document.getElementById('user-projects');
@@ -197,8 +178,8 @@
                     <div class="p-6">
                         <div class="flex justify-center mb-6">
                             <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary/50">
-                                <img id="profile-avatar" src="https://picsum.photos/id/1012/200/200" alt="李明" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                                <div class="absolute bottom-0 right-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary transition-colors duration-300">
+                                <img id="profile-avatar" src="/fronthead/img/head.jpg" alt="李明" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                                <div class="absolute bottom-2 right-2 w-10 h-10 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary transition-colors duration-300 z-10">
                                     <i class="fa fa-camera text-dark"></i>
                                 </div>
                             </div>
@@ -243,13 +224,6 @@
                                     <h3 class="text-sm text-lightgray">加入时间</h3>
                                     <p id="profile-joined" class="font-medium">加入于 2020-05-15</p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 pt-6 border-t border-primary/20">
-                            <h3 class="text-lg font-semibold mb-4 text-primary">技能</h3>
-                            <div id="user-skills" class="flex flex-wrap">
-                                <!-- 技能标签将通过JavaScript动态生成 -->
                             </div>
                         </div>
                     </div>
@@ -299,7 +273,7 @@
 
                         <div class="bg-darkgray/50 rounded-lg p-5 hover:bg-darkgray/70 transition-all duration-300">
                             <div class="flex items-center justify-between mb-3">
-                                <h3 class="text-lg font-medium">技能熟练度</h3>
+                                <h3 class="text-lg font-medium">任务完成度</h3>
                                 <span class="text-2xl font-bold text-primary">85%</span>
                             </div>
                             <div class="flex flex-wrap gap-1 mt-2">
@@ -347,43 +321,8 @@
                         <!-- 项目列表将通过JavaScript动态生成 -->
                     </div>
                 </section>
-
-                <!-- 最近活动 -->
-                <section class="glass-effect rounded-xl p-6 border border-primary/30 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
-                    <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-primary/30 text-primary">
-                        <i class="fa fa-history mr-2"></i>最近活动
-                    </h2>
-                            
-                            <div class="relative pl-12">
-                                <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-green-400 flex items-center justify-center">
-                                    <i class="fa fa-comment text-dark"></i>
-                                </div>
-                                <div class="bg-darkgray/50 rounded-lg p-4">
-                                    <div class="flex justify-between items-center">
-                                        <h3 class="font-medium">收到新评论</h3>
-                                        <span class="text-xs text-lightgray">昨天</span>
-                                    </div>
-                                    <p class="text-sm text-lightgray mt-2">张三评论了你的项目："这个实现非常棒，特别是数据可视化部分！"</p>
-                                </div>
-                            </div>
-                            
-                            <div class="relative pl-12">
-                                <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center">
-                                    <i class="fa fa-user-plus text-dark"></i>
-                                </div>
-                                <div class="bg-darkgray/50 rounded-lg p-4">
-                                    <div class="flex justify-between items-center">
-                                        <h3 class="font-medium">新的合作请求</h3>
-                                        <span class="text-xs text-lightgray">3天前</span>
-                                    </div>
-                                    <p class="text-sm text-lightgray mt-2">李四请求与你合作开发一个新的社交媒体应用。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
+ 
+        
 
         <!-- 页脚 -->
         <footer class="w-full max-w-6xl glass-effect rounded-xl p-4 mt-8 text-center text-lightgray">
@@ -391,31 +330,5 @@
         </footer>
     </div>
 
-    <!-- 回到顶部按钮 -->
-    <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-secondary">
-        <i class="fa fa-arrow-up"></i>
-    </button>
-
-    <script>
-        // 回到顶部按钮功能
-        document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // 滚动监听，显示/隐藏回到顶部按钮
-        window.addEventListener('scroll', () => {
-            const backToTopBtn = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.remove('opacity-0', 'invisible');
-                backToTopBtn.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopBtn.classList.add('opacity-0', 'invisible');
-                backToTopBtn.classList.remove('opacity-100', 'visible');
-            }
-        });
-    </script>
 </body>
-</html>    
+</html>
